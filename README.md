@@ -77,7 +77,7 @@ such as VMs, storage account, and key vault. I did some actions to trigger logs 
 
 </details>
 
-<details><summary>Enabling Microsoft Defender for Cloud</summary><br>
+<details><summary>Enable log collections from VMs and NSGs</summary><br>
 
   Collecting logs from VMs in Azure is different from other resourcesbecause VMs
   require agents to be installed and configured to enable logging and monitoring.
@@ -141,16 +141,85 @@ such as VMs, storage account, and key vault. I did some actions to trigger logs 
 
 ![image](https://github.com/user-attachments/assets/f5db76c8-8b3d-4f0d-b25d-ba27297bbc01)
 
+</details>
+<details><summary>Tenant level logging</summary><br>
+
+  # **Create diognostic settings to ingest Azure Entra ID logs**
 
 
+  ![image](https://github.com/user-attachments/assets/49910441-39f8-4672-b93b-dc6fb4c148bf)
+
+  ![image](https://github.com/user-attachments/assets/b32f133f-afa6-4543-b7f0-e9d38d485779)
+
+  ## **Create a dummy user**
+
+  Creating the user should have generated an audit log. Logging in with the new user should have generated a sign in log
+
+  ![image](https://github.com/user-attachments/assets/deee9bb6-5eb2-4bda-ab7f-5ae67487f183)
+
+  ![image](https://github.com/user-attachments/assets/7b8cd298-29c9-45a1-bda1-d438aefae597)
+
+  ## **Assign dummy_user the role of global administrator.**
+
+  This should generate another audit log.
+
+  ![image](https://github.com/user-attachments/assets/b7344d18-ecd2-4efb-8a1b-f07312b797ab)
+
+  # **Deleting the dummy user**
+
+  ![image](https://github.com/user-attachments/assets/4c1e4898-1c1c-413f-a1df-9ea4ef6bef99)
+
+# **Observe audit logs in log analytics workspace**
+
+![image](https://github.com/user-attachments/assets/4c82308b-beb4-4620-9a2e-46d2a0a4f3a0)
+
+![image](https://github.com/user-attachments/assets/22fdd6eb-a81f-415b-a0f5-8c116921145b)
+
+# **Simulate a brute force attack against Entra ID**
+
+  # **Creating an "attacker" user**
+
+  ![image](https://github.com/user-attachments/assets/5dd279aa-599f-4908-950f-5aa43265e76f)
+
+  After logging in successfully with the attacker user, I logged out and attempted to
+  log back in with wrong credentials 10 times
+
+  ![image](https://github.com/user-attachments/assets/458b994e-4a39-48fc-995d-21f72b8d3a50)
+
+  ![image](https://github.com/user-attachments/assets/bb068f1c-7739-40c5-82ff-8c35f078b554)
+
+  # **Checking logs**
+
+  Observing some of the logs related to the brute force attacks (failed logins)
+
+  ![image](https://github.com/user-attachments/assets/05865ca4-51d9-4ec7-bc7c-0da816a69ad5)
+
+  # **Using KQL to further investigate the logs**
+
+  ![image](https://github.com/user-attachments/assets/1473a3fa-8ec7-448d-8ddf-4c36b2f5d07d)
+
+  **Breakdown of the KQL query above**
+
+  - **SigninLogs**: This is the table that contains records of user sign-in activites
+  - **| whereResultDescription == "Invalid username or password or invalid on-premises username or password"** :
+      - The **where** caluse is used to filter the data to show only rows where specific condition is met.
+      - Here, we are looking for sign-in attempts that failed because the username or password was incorrect. So, we are filtering to include only those sign-ins where the ResultDescription says "Invalid username or password or Invalid on-premises username or password."
+  - **| extend location = parse_json(LocationDetails)**
+      - The **extend** clause is used to create a new column or modigy an existing one.
+      - o	Here, we're creating a new column called location by parsing the LocationDetails field. The LocationDetails field contains location data in a format called JSON (JavaScript Object Notation), which is like a structured text that stores data
+      ![image](https://github.com/user-attachments/assets/6b113786-f9b5-49ef-b1e7-cd97b46c15f2)
+
+  - **| extend City = location.city, State = location.state, Country = location.countryOrRegion, Latitude = location.geoCoordinates.latitude, Longitude = location.geoCoordinates.longitude**
+      - Now, we're breaking down the location data into more specific columns: City, State, Country, Latitude, and Longitude.
+      - Each of these new columns extracts a specific piece of information from the location data. For example, City gets the city name, Country gets the country name, and so on.
+
+        ![image](https://github.com/user-attachments/assets/450ec9c5-8523-4c6e-8fc6-20230a3f9f21)
+
+      - **| project TimeGenerated, ResultDescription,   UserPrincipalName, AppDisplayName, IPAddress, IPAddressFromResourceProvider, City, State, Country, Latitude, Longitude:**
+          - The **project** clause is used to choose which columns you want to see in the final output.
 
 
-
-
-
-
-  
-
+        
 
 </details>
 
