@@ -75,9 +75,81 @@ such as VMs, storage account, and key vault. I did some actions to trigger logs 
 
   ![image](https://github.com/user-attachments/assets/b7d023fd-ad76-4d58-993b-15a61b824f87)
 
+</details>
+
+<details><summary>Enabling Microsoft Defender for Cloud</summary><br>
+
+  Collecting logs from VMs in Azure is different from other resourcesbecause VMs
+  require agents to be installed and configured to enable logging and monitoring.
+
+  # **Creating a storage account in Azure**
+
+  ![image](https://github.com/user-attachments/assets/56315839-8967-41ee-8684-4e803e455598)
+
+  ![image](https://github.com/user-attachments/assets/7e377dd6-d41d-4fc8-90af-5883a2281592)
+
+  # **Enabling flow logs for both network security groups (NSGs)**
+
+  ![image](https://github.com/user-attachments/assets/eb981564-66b2-4481-b949-273f9b9122fd)
+
+  ![image](https://github.com/user-attachments/assets/73e62bba-3267-4226-b841-b2e097b383a0)
+
+  ![image](https://github.com/user-attachments/assets/019646d4-17f7-476f-baab-e301702edf40)
+
+  # **Configuring data collection rules within the log analytics workspace**
+
+  The data collection rule will worl in conjunction with defender for cloud and the agents installed on the VMs to specify 
+  which logs (system, security, application) from the VMs to forward to the log analytics workspace.
+
+  ![image](https://github.com/user-attachments/assets/26122274-a01a-49b1-a3c9-f364f81199e3)
+
+  ![image](https://github.com/user-attachments/assets/416cecf4-586d-4ae2-8e74-691b13075e24)
+
+  ![image](https://github.com/user-attachments/assets/71ebd780-24fc-48c7-9e5b-a5236320c7f6)
+
+  ![image](https://github.com/user-attachments/assets/33d6150d-ee30-4c94-9624-315f8911a719)
+
+![image](https://github.com/user-attachments/assets/97336654-e87c-4ddd-965e-6af9604d6b84)
+
+![image](https://github.com/user-attachments/assets/bb6b29f2-3a4d-4199-a93b-0c2aae13caa8)
+
+![image](https://github.com/user-attachments/assets/762d5466-576d-4fa2-a224-2b24c50d9a3e)
+
+# **Manually installing the log analytics agent on both windows VM and Linux VM**
+
+  ## **Windows VM**
+
+  I downloaded the agent inside of windows VM andconnected it to the log analytics
+
+  ![image](https://github.com/user-attachments/assets/744cbdea-2e25-4bca-9405-4b312a827331)
+
+  ## **Linux VM**
+
+  To install the agent on Linux VM, I first lgged into the VM using SSH
+
+  ![image](https://github.com/user-attachments/assets/36e658f1-089e-41de-a4e0-0cceb90cf0cc)
+
+  Them I copied the command to install the agent
+
+  ![image](https://github.com/user-attachments/assets/1cc7e8be-8c4f-4434-b1a6-e1349b3f82a8)
+
+  ![image](https://github.com/user-attachments/assets/996a4fa0-c6c5-4ecd-b4f7-972f7cc59865)
+
+  ![image](https://github.com/user-attachments/assets/eff5d73c-0882-42d2-8d7f-048d7c9cf6ed)
+
+# **Query log analytics for logs from VMs and NSGs**
+
+![image](https://github.com/user-attachments/assets/f5db76c8-8b3d-4f0d-b25d-ba27297bbc01)
+
+
+
+
+
+
+
+
 
   
-
 
 
 </details>
