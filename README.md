@@ -268,18 +268,108 @@ such as VMs, storage account, and key vault. I did some actions to trigger logs 
       - This query will return all the successfully deleted resources within the last 30 minutes
 
         ![image](https://github.com/user-attachments/assets/2e82462f-f86c-45ac-8c12-481fefd9bcdd)
+</details>
+
+<details><summary>Resource Level Logging </summary><br>
+
+  In this lab, I enabled logging for the storage account and forwarding it into the log analytics workspace. I created a key vault (enterprise password manager) and enabled logging for it. 
+
+  # **Configure logging for azure storage account**
+
+  Configure logging for storage account by enabling diagnostic settings for blob storage.
+
+  Blob is the data plane for the storage account. Uploading files, changing the files, and deleting them all actions that will be logged.
+
+  ![image](https://github.com/user-attachments/assets/ce27a1e7-7c16-487e-9520-27d1196fcae3)
+
+  ![image](https://github.com/user-attachments/assets/a5049f65-eca2-43a1-a69f-30f24c999e69)
+
+  ![image](https://github.com/user-attachments/assets/630a72ae-0e9d-47c5-be2b-57151f7d083e)
+
+  # **Configure logging for key vault**
+
+  ## **Create a key vault instance**
+
+  ![image](https://github.com/user-attachments/assets/9b9a30d9-5a69-4e20-a29c-e7fd1a104992)
+
+  ![image](https://github.com/user-attachments/assets/41d2c117-ede2-4083-bb94-3e496f3b4c3b)
+
+  ![image](https://github.com/user-attachments/assets/4719c320-29ef-4750-a07a-aaeb73637b4b)
+
+  ![image](https://github.com/user-attachments/assets/c8970c9f-d6c2-4a93-bf36-14635dbcf35c)
+
+  ![image](https://github.com/user-attachments/assets/bcc47823-fae9-4b8e-b5c2-042b35cb1561)
+
+  ## **Add a secret to the key vault**
+
+  ![image](https://github.com/user-attachments/assets/e2c67082-b83b-4bd2-8350-0f22f829d802)
+
+  ## **Enable diagnostic settings for key vault to send the audit logs**
+
+  ![image](https://github.com/user-attachments/assets/91a24b48-13d8-421d-a62e-c62dffa3d381)
+
+  ![image](https://github.com/user-attachments/assets/33039564-338b-4aad-97d0-8927792502a8)
+
+
+
+  # **Generate some logs for storage account**
+
+  ## **Create a new container in the storage account and upload a file.**
+
+  ![image](https://github.com/user-attachments/assets/95fa11af-3003-4802-83ac-5fca4a193ed0)
+
+  ![image](https://github.com/user-attachments/assets/10c74b02-3213-41cb-9080-104357b57668)
+
+  ![image](https://github.com/user-attachments/assets/fce451c0-d7b5-42c2-91df-8c1e29a0ed49)
+
+  ## **Editing the file will create another log**
+
+  ![image](https://github.com/user-attachments/assets/539712c5-94c2-4eb1-af43-4208ac02ec06)
+
+  ![image](https://github.com/user-attachments/assets/717d78d6-b484-4932-aaaa-f339629e2693)
+
+  ## **Deleting the blob file should also generate logs**
+
+  ![image](https://github.com/user-attachments/assets/dec8aba6-7844-452e-bc41-3fc47db250d7)
+
+
+  # **Analyzing the logs in the log analytics workspace to verify**
+
+  ![image](https://github.com/user-attachments/assets/62901c58-877c-41c1-99d3-5fe54b82ceb6)
+
+  - **Quering logs related to the creation or uploading of blobs (files) within the last 24 hours**
+
+    ![image](https://github.com/user-attachments/assets/f6fc1dfd-dbf8-45f0-9bb1-a2cff6d6cb98)
+
+      - **StorageBlobLogs**: This refers to the table containing logs for operations performed on Azure storage blobs (files)
+      - **| where OperationName == “PutBlob”**: **Where** clause filters logs to show only entries with certain criteria. In this case, we are looking for logs where the operation name is PutBlob which refers to the operation of uploading or creating a blob.
+      - **| where TimeGenerated >  ago(24h)**:  This further filters the results to include only logs where the operation happened within the last 24 hours.
+
+
+    - Quering logs related to the deletion of blob files
+
+      ![image](https://github.com/user-attachments/assets/b0368894-5505-4c60-be37-e1562b62bebe)
+
+        - **| Summarize Count = count() by OperationName, CallerIpAddress**: The **summarize** clause is used to group the filtered results and perform aggregations.
+In this case, the query counts the number of **DeleteBlob** operations and groups the results by **OperationName** and **CallerIpAddress**. 
+
+
+
 
 
   
 
-  
+
+
+
+
+
+
+
 
   
+
+
   
-
-
-
-
-
 </details>
 
