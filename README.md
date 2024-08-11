@@ -223,3 +223,63 @@ such as VMs, storage account, and key vault. I did some actions to trigger logs 
 
 </details>
 
+<details><summary>Subscription Level Logging (Activity Log) </summary><br>
+  
+  In this lab, I set up activity logs. Activity logs are subscription level logs such as creating resources, deleting resources, changing resources, and changing network security groups.
+  
+  
+  ![image](https://github.com/user-attachments/assets/c7fd4f9e-0c86-4ec4-b3da-86d7adef52fb)
+
+  ![image](https://github.com/user-attachments/assets/4462d18f-2916-483c-a302-b6b6d3560369)
+
+  <br>
+
+  # **Export azure activity logs to log analytics workspace**
+
+  ![image](https://github.com/user-attachments/assets/10deaf06-06ba-421e-8db9-e0ed00d92063)
+
+  ![image](https://github.com/user-attachments/assets/f5bc98bf-27df-4942-860d-523fdeaa5b64)
+
+  **Generate some logs**
+
+  ![image](https://github.com/user-attachments/assets/ecc0127d-5247-4bf8-9081-6d38fc6e78f8)
+
+  # **Create two new resource groups**
+
+  ![image](https://github.com/user-attachments/assets/edaf7c0f-5576-4775-9b75-4c49089a5786)
+
+  ![image](https://github.com/user-attachments/assets/206d5d72-bb8b-4c2b-9f67-8da740aaa8e8)
+
+  **Checking in the monitor to see the logs generated**
+
+  ![image](https://github.com/user-attachments/assets/e636bde1-3a18-4476-a5c4-70804e80f91d)
+
+  <br>
+  
+  # **After deleting the previously created resource groups, I will query the generated logs to get some information**
+
+  - **Query for the deletion of critical resource group**
+      - Here, I am quering the **AzureActivity** table and filtering for only logs associated with **Critical-Infrastructure-** resource group
+
+        ![image](https://github.com/user-attachments/assets/beb30ed3-9d0b-412b-a1a1-77e8d45372bd)
+
+
+  - **Deletion activities within a certain timestamp**
+      - This query will return all the successfully deleted resources within the last 30 minutes
+
+        ![image](https://github.com/user-attachments/assets/2e82462f-f86c-45ac-8c12-481fefd9bcdd)
+
+
+  
+
+  
+
+  
+  
+
+
+
+
+
+</details>
+
